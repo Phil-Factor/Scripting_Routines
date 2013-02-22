@@ -1,0 +1,24 @@
+FKBuildScript:
+This function returns an ALTER TABLE  build script as a string that builds all the foreigh keys constraints for the table whose ID you pass to it..
+
+Author: Phil Factor
+Revision: 1.1  
+date: 1 Dec 2012
+Revision: 1.3 Added extended properties build
+date: 3 Dec 2012
+example:
+     - code: Select dbo.FKBuildScript (object_ID('MyTable'))
+
+returns:   >
+string Build_Script.
+
+Sp_ScriptFor:
+
+This procedure returns an object buld script as a single-row, single column
+result.
+Unlike the built-in OBJECT_DEFINITION, it also does tables.
+It copies the SMO style where possible but it uses the more intuitive
+eay of representing referential constrants and includes the documentation
+as comments that was, for unknown reasons, left out by microsoft.
+You call it with the name of the table, either as a string, a valid table name,
+or as a schema-qualified table name in a string.
