@@ -1,11 +1,11 @@
-CREATE function FKBuildScript (@Tableobject_ID int)
+Alter function FKBuildScript (@Tableobject_ID int)
 /*
 This function returns an ALTER TABLE  build script as a string that builds all the foreigh keys constraints for the table whose ID you pass to it..
 
 Author: Phil Factor
 Revision: 1.1  
 date: 1 Dec 2012
-Revision: 1.3 Added extended properties build
+Revision: 1.2 
 date: 3 Dec 2012
 example:
      - code: Select dbo.FKBuildScript (object_ID('MyTable'))
@@ -20,7 +20,7 @@ Declare @TableForeignKeys Varchar(max)
 SELECT
 	@TableForeignKeys = Coalesce(@TableForeignKeys + ',
 ', '') + ' CONSTRAINT ' + QuoteName(Name) + ' FOREIGN KEY  (#' + Convert(Varchar(10), Object_Id) + '##1) 
-     REFERENCES ' + QuoteName(Object_Schema_Name(Parent_Object_Id)) + '.' + QuoteName(Object_Name(Parent_Object_Id))
+     REFERENCES ' + QuoteName(Object_Schema_Name(referenced_Object_Id)) + '.' + QuoteName(Object_Name(referenced_Object_Id))
 	+ ' (#' + +Convert(Varchar(10), Object_Id) + '##2)' 
     + CASE WHEN Delete_Referential_Action>0 THEN ' ON DELETE '+Delete_Referential_Action_Desc ELSE '' END
 	+ CASE WHEN Update_Referential_Action>0 THEN ' ON Update '+Update_Referential_Action_Desc ELSE '' END
